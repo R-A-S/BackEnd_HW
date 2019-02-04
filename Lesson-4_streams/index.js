@@ -1,4 +1,4 @@
-const { Ui, Guardian, AccountManager } = require('./modules');
+const { Ui, Guardian, Logger, Decryptor, AccountManager } = require('./modules');
 
 const customers = [
     {
@@ -14,11 +14,24 @@ const customers = [
 ];
 
 const ui = new Ui(customers, { objectMode: true, highWaterMark: 1 });
+
 const guardian = new Guardian({
     readableObjectMode: true,
     writableObjectMode: true,
     decodeStrings:      false,
 });
+
+const logger = new Logger({ objectMode: true, highWaterMark: 1 });
+
+const decryptor = new Decryptor({
+    readableObjectMode: true,
+    writableObjectMode: true,
+    decodeStrings:      false,
+});
+
 const manager = new AccountManager({ objectMode: true, highWaterMark: 1 });
 
-ui.pipe(guardian).pipe(manager);
+ui.pipe(guardian)
+    .pipe(logger)
+    .pipe(decryptor)
+    .pipe(manager);

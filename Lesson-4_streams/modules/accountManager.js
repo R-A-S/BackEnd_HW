@@ -7,15 +7,11 @@ class AccountManager extends Writable {
     }
 
     _write(customer, undefined, done) {
+        // console.log('→AccountManager', customer);
         this.storage.push(customer);
-        console.log(customer.payload);
+        console.log('→ AccountManager receives customer : ', customer);
         done();
     }
 }
 
 module.exports = AccountManager;
-
-// 1. Реализовать класс AccountManager который реализует Writable
-// интерфейс и будет служить в качестве хранилища данных.
-
-// 2. Когда AccountManager получает объект он должен вывести в консоль payload.

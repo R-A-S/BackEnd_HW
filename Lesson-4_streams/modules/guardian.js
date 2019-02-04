@@ -4,15 +4,27 @@ class Guardian extends Transform {
         super(options);
     }
 
+    _randomAlgorithm() {
+        const algorithms = [ 'hex', 'base64' ];
+        const algorithm = algorithms[ Math.floor(Math.random() * algorithms.length) ];
+
+        return algorithm;
+    }
+
     _transform(customer, undefined, done) {
+        // console.log('→Guardian', customer);
+
+        const algorithm = this._randomAlgorithm();
+
         this.push({
             meta: {
-                source: 'ui',
+                source:    'ui',
+                algorithm: algorithm,
             },
             payload: {
                 name:     customer.name,
-                email:    Buffer.from(customer.email, 'utf8').toString('hex'),
-                password: Buffer.from(customer.password, 'utf8').toString('hex'),
+                email:    Buffer.from(customer.email, 'utf8').toString(algorithm),
+                password: Buffer.from(customer.password, 'utf8').toString(algorithm),
             },
         });
         done();
@@ -20,27 +32,3 @@ class Guardian extends Transform {
 }
 
 module.exports = Guardian;
-
-// 2. Реализовать класс Guardian который будет имплементировать Transform интерфейс
-// и будет служить для шифрования данных. Для шифрования пароля будем
-// использовать преобразование строки в hex формат. Зашифровать необходимо email
-// и password.
-// Пример преобразования для первого объекта.
-
-// Было
-// {
-//     name: 'Pitter Black',
-//     email: 'pblack@email.com',
-//     password: 'pblack_123'
-// }
-// Стало
-// {
-//     meta: {
-//         source: 'ui'
-//     },
-//     payload: {
-//         name: 'Pitter Black',
-//         email: '70626c61636b40656d61696c2e636f6d',
-//         password: '70626c61636b5f313233'
-//     }
-// }

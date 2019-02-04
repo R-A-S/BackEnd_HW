@@ -9,6 +9,8 @@ class Ui extends Readable {
     _read() {
         try {
             let customer = this._validate(this.data.shift());
+            // console.log('→Ui', customer);
+
             if (!customer) {
                 this.push(null);
             } else {
@@ -23,13 +25,13 @@ class Ui extends Readable {
     _validate(customer) {
         if (customer) {
             if (Object.keys(customer).toString() !== 'name,email,password') {
-                throw new Error('fields = false');
+                throw new Error('Something went wrong in Ui👾 Only name,email and password fields are required.🛑');
             }
             for (const key in customer) {
                 if (customer.hasOwnProperty(key)) {
                     const element = customer[ key ];
-                    if (typeof element !== 'string') {
-                        throw new Error('type = false');
+                    if (typeof element !== 'string' || !element.trim()) {
+                        throw new Error('Something went wrong in Ui👾 All fields are required.🛑 Only strings are accepted.📝');
                     }
                 }
             }
@@ -37,17 +39,8 @@ class Ui extends Readable {
             return customer;
         }
 
-        return customer;
+        return null;
     }
 }
 
 module.exports = Ui;
-
-// 1. Реализовать класс Ui который будет имплементировать Readable интерфейс и будет
-// служить поставщиком данных.
-/*
-Обратите внимание!
-1. Все поля являются обязательными.
-2. Все поля должны быть строками.
-3. Объект не должен содержать дополнительных полей.
-*/
