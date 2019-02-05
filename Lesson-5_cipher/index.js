@@ -1,6 +1,3 @@
-/* eslint-disable no-process-exit */
-
-
 const { Ui, Guardian, Logger, Decryptor, AccountManager } = require('./modules');
 
 const customers = [
@@ -10,7 +7,7 @@ const customers = [
         password: 'pblack_123',
     },
     {
-        name:     'Oliver White',
+        name:     1,
         email:    'owhite@email.com',
         password: 'owhite_123',
     },
