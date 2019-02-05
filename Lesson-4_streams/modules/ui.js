@@ -25,13 +25,23 @@ class Ui extends Readable {
     _validate(customer) {
         if (customer) {
             if (Object.keys(customer).toString() !== 'name,email,password') {
-                throw new Error('Something went wrong in Ui👾 Only name,email and password fields are required.🛑');
+                this.emit(
+                    'error',
+                    new Error(
+                        'Something went wrong in Ui👾 Only name,email and password fields are required.🛑',
+                    ),
+                );
             }
             for (const key in customer) {
                 if (customer.hasOwnProperty(key)) {
                     const element = customer[ key ];
                     if (typeof element !== 'string' || !element.trim()) {
-                        throw new Error('Something went wrong in Ui👾 All fields are required.🛑 Only strings are accepted.📝');
+                        this.emit(
+                            'error',
+                            new Error(
+                                'Something went wrong in Ui👾 All fields are required.🛑 Only strings are accepted.📝',
+                            ),
+                        );
                     }
                 }
             }

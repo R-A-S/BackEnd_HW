@@ -32,6 +32,18 @@ const decryptor = new Decryptor({
 const manager = new AccountManager({ objectMode: true, highWaterMark: 1 });
 
 ui.pipe(guardian)
+    .on('error', (error) => {
+        console.error(`→ ${error.name} ${error.message}`);
+    })
     .pipe(logger)
+    .on('error', (error) => {
+        console.error(`→ ${error.name} ${error.message}`);
+    })
     .pipe(decryptor)
-    .pipe(manager);
+    .on('error', (error) => {
+        console.error(`→ ${error.name} ${error.message}`);
+    })
+    .pipe(manager)
+    .on('error', (error) => {
+        console.error(`→ ${error.name} ${error.message}`);
+    });

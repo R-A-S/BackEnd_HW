@@ -9,7 +9,10 @@ class Decryptor extends Transform {
 
         try {
             if (!(customer.meta.algorithm === 'hex' || customer.meta.algorithm === 'base64')) {
-                throw new Error('A terrible algorithmic error in Decriptor, game over!💥');
+                this.emit(
+                    'error',
+                    new Error('A terrible algorithmic error in Decriptor, game over!💥'),
+                );
             }
             const validCustomer = this._validate({
                 name:  customer.payload.name,
@@ -31,14 +34,22 @@ class Decryptor extends Transform {
 
     _validate(customer) {
         if (Object.keys(customer).toString() !== 'name,email,password') {
-            throw new Error('Something went wrong in Decriptor👾 Only name,email and password fields are required.🛑');
+            this.emit(
+                'error',
+                new Error(
+                    'Something went wrong in Decriptor👾 Only name,email and password fields are required.🛑',
+                ),
+            );
         }
         for (const key in customer) {
             if (customer.hasOwnProperty(key)) {
                 const element = customer[ key ];
                 if (typeof element !== 'string' || !element.trim()) {
-                    throw new Error(
-                        'Something went wrong in Decriptor👾 All fields are required.🛑 Only strings are accepted.📝',
+                    this.emit(
+                        'error',
+                        new Error(
+                            'Something went wrong in Decriptor👾 All fields are required.🛑 Only strings are accepted.📝',
+                        ),
                     );
                 }
             }
