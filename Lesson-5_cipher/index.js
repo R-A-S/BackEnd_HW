@@ -1,4 +1,5 @@
-const { Ui, Guardian, Logger, Decryptor, AccountManager } = require('./modules');
+/* eslint-disable no-process-exit */
+const { Ui, Guardian, AccountManager } = require('./modules');
 
 const customers = [
     {
@@ -7,7 +8,7 @@ const customers = [
         password: 'pblack_123',
     },
     {
-        name:     1,
+        name:     'Oliver White',
         email:    'owhite@email.com',
         password: 'owhite_123',
     },
@@ -21,14 +22,6 @@ const guardian = new Guardian({
     decodeStrings:      false,
 });
 
-const logger = new Logger({ objectMode: true, highWaterMark: 1 });
-
-const decryptor = new Decryptor({
-    readableObjectMode: true,
-    writableObjectMode: true,
-    decodeStrings:      false,
-});
-
 const manager = new AccountManager({ objectMode: true, highWaterMark: 1 });
 
 ui.on('error', ({ name, message }) => {
@@ -36,16 +29,6 @@ ui.on('error', ({ name, message }) => {
     process.exit(1);
 })
     .pipe(guardian)
-    .on('error', ({ name, message }) => {
-        console.error(`→ ${name} ${message}`);
-        process.exit(1);
-    })
-    .pipe(logger)
-    .on('error', ({ name, message }) => {
-        console.error(`→ ${name} ${message}`);
-        process.exit(1);
-    })
-    .pipe(decryptor)
     .on('error', ({ name, message }) => {
         console.error(`→ ${name} ${message}`);
         process.exit(1);

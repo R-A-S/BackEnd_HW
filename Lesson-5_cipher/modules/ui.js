@@ -8,7 +8,6 @@ class Ui extends Readable {
 
     _read() {
         let customer = this._validate(this.data.shift());
-        // console.log('→Ui', customer);
 
         if (!customer) {
             this.push(null);
