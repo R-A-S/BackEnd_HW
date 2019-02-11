@@ -9,7 +9,9 @@ const archiver = new Archiver(options);
 
 json2csv.convert('comments.json');
 
+
 archiver.zip('comments.json', {
     algorithm: 'gzip',
 });
+//!Работает только при закоментированном zip методов одновременно
 //archiver.unzip('comments.json.gz');
