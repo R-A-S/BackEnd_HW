@@ -1,7 +1,15 @@
 const Json2csv = require('./modules/json2csv');
+const Archiver = require('./modules/archiver');
 const options = {
-    filter: [ 'postId', 'name', 'body' ],
+    fields: [ 'postId', 'name', 'body' ],
 };
 
 const json2csv = new Json2csv(options);
+const archiver = new Archiver(options);
+
 json2csv.convert('comments.json');
+
+archiver.zip('comments.json', {
+    algorithm: 'gzip',
+});
+//archiver.unzip('comments.json.gz');
