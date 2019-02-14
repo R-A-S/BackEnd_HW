@@ -25,7 +25,7 @@ server.on('connection', (socket) => {
         //     console.log(error);
         // }
 
-        const filteredUsers = filter(usersArray, filterOptions, socket);
+        const filteredUsers = filter(usersArray, filterOptions);
 
         socket.write(JSON.stringify(filteredUsers));
     });
